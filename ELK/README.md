@@ -68,3 +68,77 @@ In my case it is 10.0.0.4, save/remember this number somehow
     1. Find the line "#network.host", uncomment and update the value with the IP address we just got.
     2. Fint the line "#http.port" and uncomment it
     3. Save and quit
+
+### Starting the service
+
+1. `systemctl daemon-reload`
+2. `systemctl enable elasticsearch.service`
+3. `systemctl start elasticsearch.service`
+4. `systemctl status elasticsearch.service`
+
+Elasticsearch is installed and running
+
+![ElasticSearchStatus](/images/elasticSearch%20status.jpg)
+
+## Installing Kibana
+
+1. On `https://www.elastic.co/downloads/kibana` pick the desired platform and `wget` it.
+   In my case that's `https://artifacts.elastic.co/downloads/kibana/kibana-8.17.4-amd64.deb`
+2. Run `dpkg -i <filename>`
+3. We need to configure somethings on the service, `vim /etc/kibana/kibana.yml`
+4. Uncomment `#server.port: 5601`
+5. Uncomment `#server.host: "localhost"` and change the value to "0.0.0.0" or your ip address from "ip a"
+6. `systemctl daemon-reload`
+7. `systemctl enable kibana.service`
+8. `systemctl start kibana.service`
+9. `systemctl status kibana.service`
+
+![KibanaStatus](/images/kibana%20status.jpg)
+
+### Generating elastic search token
+
+1.  `cd /usr/share/elasticsearch/bin`
+
+    \* `ls` produces the following output:
+
+        elasticsearch                          elasticsearch-geoip             elasticsearch-setup-passwords
+        elasticsearch-certgen                  elasticsearch-keystore          elasticsearch-shard
+        elasticsearch-certutil                 elasticsearch-node              elasticsearch-sql-cli
+        elasticsearch-cli                      elasticsearch-plugin            elasticsearch-sql-cli-8.17.4.jar
+        elasticsearch-create-enrollment-token  elasticsearch-reconfigure-node  elasticsearch-syskeygen
+        elasticsearch-croneval                 elasticsearch-reset-password    elasticsearch-users
+        elasticsearch-env                      elasticsearch-saml-metadata     systemd-entrypoint
+        elasticsearch-env-from-file            elasticsearch-service-tokens
+
+2.  `elasticsearch-create-enrollment-token` needs to be invoked. run the following command `./elasticsearch-create-enrollment-token --scope kibana`
+3.  Save the token into `~/kibanaToken` (this is not safe but this way we won't lose the output)
+
+### Accessing Kibana
+
+Currently Kibana is reacheable through port 5601, however our "Network Security Group" doesn't allow traffic through this port.
+
+1.  On Azure's portal access "Resource Groups" and the Resource with type "Network security group" > Settings > Inbound security Rules > Add > Destination port ranges = 5601
+    ![inboundRuleConfig](/images/azureInboundRuleConfig.jpg)
+2.  On the VM's terminal > sudo ufw allow 5601
+3.  Ensure `elasticsearch.service` and `kibana.service` are running.
+4.  On a browser on your pc navigate to `http://<YOUR PUBLIC IP ADDRESS>:5601`
+5.  Paste the token generated earlier into the field
+6.  `sudo /usr/share/kibana/bin/kibana-verification-code` and copy the code into the field
+7.  The service will now start and ask for credentials. The credentials were created during the elasticsearch setup and I've saved them on the file "elastic".
+
+        User: elastic
+        Password: aHnBmDBnO+WgtAkT=DS7
+        *If the password is lost or forgotten the command `/usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic' should be used.
+
+![elasticDashBoard](/images/elasticDashboard.jpg)
+
+8.  Finally on the burger menu on the left side select "Alerts"
+
+        The error "Failed to retrieve detection engine privileges" has been raised.
+
+9.  Run the command `sudo /usr/share/kibana/bin/kibana-encryption-keys generate` is run and it generates a assortment of keys.
+10. Copy them into `/etc/kibana/kibana.yml` and restart the service.
+
+![elasticAlert](/images/elasticAlerts.jpg)
+
+**_Gui is now setup_**
