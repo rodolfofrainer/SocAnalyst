@@ -120,11 +120,12 @@ Currently Kibana is reacheable through port 5601, however our "Network Security 
 1.  On Azure's portal access "Resource Groups" and the Resource with type "Network security group" > Settings > Inbound security Rules > Add > Destination port ranges = 5601
     ![inboundRuleConfig](/images/azureInboundRuleConfig.jpg)
 2.  On the VM's terminal > sudo ufw allow 5601
-3.  Ensure `elasticsearch.service` and `kibana.service` are running.
-4.  On a browser on your pc navigate to `http://<YOUR PUBLIC IP ADDRESS>:5601`
-5.  Paste the token generated earlier into the field
-6.  `sudo /usr/share/kibana/bin/kibana-verification-code` and copy the code into the field
-7.  The service will now start and ask for credentials. The credentials were created during the elasticsearch setup and I've saved them on the file "elastic".
+3.  sudo ufw allow 9200 (this will be used for the fleet server)
+4.  Ensure `elasticsearch.service` and `kibana.service` are running.
+5.  On a browser on your pc navigate to `http://<YOUR PUBLIC IP ADDRESS>:5601`
+6.  Paste the token generated earlier into the field
+7.  `sudo /usr/share/kibana/bin/kibana-verification-code` and copy the code into the field
+8.  The service will now start and ask for credentials. The credentials were created during the elasticsearch setup and I've saved them on the file "elastic".
 
         User: elastic
         Password: aHnBmDBnO+WgtAkT=DS7
