@@ -1,6 +1,9 @@
 # Fleet Server
 
+Create a Ubuntu server
+
 Aiming for the cheapest option on Azure we achieve $0.01/h
+
 ![FleetPrice](/images/fleetCost.jpg)
 
 While the server is deploying I'll head to our elastic GUI and on the left side menu scroll to management and click on "Fleet"
@@ -25,8 +28,6 @@ Continue when given the choice and you should be met with this screen:
 3. Go into the windows server VM
 4. Open PowerShell as Administrator
 5. Paste Selected command into Powershell and run
-
-   \* On settings you can modify yourserver to use port 8220
 
    \* If an error is thrown, check Firewall rules on fleet server, if none of that works try adding the `--insecure` flag at the end of the command
 

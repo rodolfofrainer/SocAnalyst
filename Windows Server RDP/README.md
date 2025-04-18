@@ -30,3 +30,4 @@ All other options are set as the cheapest and weakest versions in order to save 
         .\Sysmon64.exe -i sysmonconfig.xml
 
 3.  Accept the terms and conditions
+4.  Check windows Services for "Sysmon64"

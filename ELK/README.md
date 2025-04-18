@@ -142,4 +142,49 @@ Currently Kibana is reacheable through port 5601, however our "Network Security 
 
 ![elasticAlert](/images/elasticAlerts.jpg)
 
-**_Gui is now setup_**
+## Data ingestion
+
+After Sysmon's installation into the server, it is time to create policies that will allow kibana to receive the logs
+
+Clicking the button "Add integration" on the dashboard, look for "Custom Windows Event Logs".
+
+![Custom Windows Event Logs](/images/Custom%20Windows%20Event%20Logs.jpg)
+
+Add the integration and label it accordingly, mine are called "Defender Logs" and "Sysmon Logs".
+
+![addPolicy](/images/addPolicy.png)
+
+### Channel name
+
+To find the Channel name the event viewer on the Windows server is used. Navigate to: Event Viewer > Applications and Services Logs > Microsoft > Windows > {Service}
+
+#### Service Names
+
+Sysmon: Sysmon
+Defender: Windows Defender
+
+On both of these services the cannel name is in: {Service} > Operational > Properties > Full Name
+
+![fullName](/images/operationalChannelName.png)
+
+On sysmon that's all there is, no need for further configuration.
+
+---
+
+### Defender
+
+On Windows defender Policy > Custom Windows event logs > Event ID
+
+add the numbers 1116,1117,5001
+
+## ![CustomEventIds](/images/customEventIds.png)
+
+Add both of policies to the windows policy
+
+![addToPolicy](/images/addToPolicy.png)
+
+If everything was done properly you should see somthing like this
+
+![HealthyPolicy](/images/healthyPolicy.jpg)
+
+\* **_If the metrics are not visible, this could mean a problem with communication, check if all appropriate ports are reacheable; If more than 1 VLan is used, as in my case, make sure that Azure's vnet resource has a "peering" configured to allow communication between vlans_**
