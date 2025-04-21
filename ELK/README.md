@@ -177,7 +177,7 @@ On Windows defender Policy > Custom Windows event logs > Event ID
 
 add the numbers 1116,1117,5001
 
-## ![CustomEventIds](/images/customEventIds.png)
+![CustomEventIds](/images/customEventIds.png)
 
 Add both of policies to the windows policy
 
@@ -189,7 +189,7 @@ If everything was done properly you should see somthing like this
 
 \* **_If the metrics are not visible, this could mean a problem with communication, check if all appropriate ports are reacheable; If more than 1 VLan is used, as in my case, make sure that Azure's vnet resource has a "peering" configured to allow communication between vlans_**
 
-#### testing on "Discovery"
+## Testing "Discovery"
 
 After a couple of minutes go into discovery and look for "winlog.event_id: {number or \*}"
 
@@ -200,3 +200,68 @@ The result will be similar to the following
 To ensure logs are coming through look for "event.provider" with the value "microsoft-windows-sysmon" or "microsoft-windows-windows defender"
 
 ![confirmingLogs](/images/confirmingLogs.jpg)
+
+## Saving Discovery Filters
+
+With the filter set to "system.auth.ssh.event : Failed" -> this will filter only failed ssh attempts into the server. Also the time window is set for 15 minutes by default, changing that might increase the number of results.
+
+And with the fields "source.ip", "user.name", "source.geo.contry_name" selected, the result should be similar to this
+
+![dicoveryFiltered](/images/discoveryFiltered.png)
+
+_The filter can be saved using the "save" button at the top_
+
+### Create an alert
+
+1. Click on the "Alerts" then "create a new alert", give a name and check the query (correct indexing? correct query?)
+2. Set threshold rules
+3. How often should it be run?
+4. Save
+
+![create Alert](/images/elasticAlert.png)
+
+## Showing it on a map
+
+Analytics > Maps
+
+![emptyMap](/images/map.png)
+
+        Query filter: 'system.auth.ssh.event : "Failed"'
+
+        Add layer > Choropleth >
+        - EMS boundaries: World Countries
+        - Data View: {log idexing used on Discovery}
+        - Join Field: source.geo.country_iso_code
+
+![fullMap](/images/fullMap.png)
+
+_This can also be saved into a dashboard using the "save" button_
+
+### Dashboard example
+
+![dashBoard](/images/dashboardMaps.png)
+
+## A better alert
+
+Security > Rules > Detection rules (SIEM) > Create new rule > Threshold
+
+Custom query:
+
+        system.auth.ssh.event : "Failed" or system.auth.ssh.event :"Invalid"  or system.auth.ssh.event :"message"  or system.auth.ssh.event :"error:"
+
+1. Define SIEM Rule
+
+![DefineSiemRule](/images/defineSiemRule.png)
+
+2. About Rule
+
+![aboutSiemRule](/images/aboutSiemRule.png)
+
+3.  Schedule rule
+
+        Runs every: 5
+        Aditional look-back time: 5
+
+4.  Rules actions
+
+        As default
