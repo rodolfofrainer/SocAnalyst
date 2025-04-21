@@ -188,3 +188,15 @@ If everything was done properly you should see somthing like this
 ![HealthyPolicy](/images/healthyPolicy.jpg)
 
 \* **_If the metrics are not visible, this could mean a problem with communication, check if all appropriate ports are reacheable; If more than 1 VLan is used, as in my case, make sure that Azure's vnet resource has a "peering" configured to allow communication between vlans_**
+
+#### testing on "Discovery"
+
+After a couple of minutes go into discovery and look for "winlog.event_id: {number or \*}"
+
+The result will be similar to the following
+
+![winPolicyDiscovery](/images/windowPolicyDiscovery.jpg)
+
+To ensure logs are coming through look for "event.provider" with the value "microsoft-windows-sysmon" or "microsoft-windows-windows defender"
+
+![confirmingLogs](/images/confirmingLogs.jpg)
