@@ -265,3 +265,31 @@ Custom query:
 4.  Rules actions
 
         As default
+
+## Better Visualization
+
+On the dashboard previously created you might have something like this
+
+![4Maps](/images/4maps.png)
+
+To create a custom visualization:
+
+1.  Click on "create visualization"
+2.  Enter the desired query
+
+                event.code: 4624 - for successfull RDP
+                OR
+                event.code: 4625 - for unsuccessfull RDP
+                OR
+                system.auth.ssh.event: "Failed" - for unsuccessfull SSH
+                OR
+                system.auth.ssh.event: "Accepted" - for successfull SSH
+
+3.  Update time frame
+4.  Update type of graph (that can be done on the right side of the window) - I'm using a table graph
+5.  Drag the desired values to be displayed - user.name, source.ip, source.geo.country_name
+6.  On the right side, under "Rows" section, select each of the values and change the "number of values" to 10 and under "Advanced" uncheck "Group remaining values as "Other""
+
+After doing it to all query values previously provided you will end up with something like this
+
+![dashboardWithVisualization](/images/dashboardWithVisualization.png)
