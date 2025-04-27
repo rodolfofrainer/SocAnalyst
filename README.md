@@ -78,3 +78,12 @@ On kali Linux's terminal
 10. Do you trust the certificate? `Y`
 
 _Connection successful_
+
+#### Phase 2
+
+1. Open command prompt
+2. Run commands `whoami` `ipconfig` `net user` `net group` `net user {WHOAMI_USER}`
+
+#### Phase 3
+
+1. On windows security settings disable all options for realtime protection
