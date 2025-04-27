@@ -17,3 +17,11 @@ _\*It's recommended to run Mythic on a VM with at least 2CPU and 4GB Ram._
 
 6. run `sudo make`
 7. run `sudo ./mythic-cli start`
+8. Check that port 7443 is accessible
+9. connect to `{IP_ADDRESS:7443}` using the credentials `mythic_admin` and the output from `sudo ~/Mythic/mythic-cli config get MYTHIC_ADMIN_PASSWORD`
+
+![mythicLogin](/images/mythicLogin.png)
+
+10. Create a new operation clicking on the "operation Chimera" and set it as the current operation, I've named mine operation My30Days
+
+![newOperation](/images/newOperation.png)
