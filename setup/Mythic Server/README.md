@@ -25,3 +25,38 @@ _\*It's recommended to run Mythic on a VM with at least 2CPU and 4GB Ram._
 10. Create a new operation clicking on the "operation Chimera" and set it as the current operation, I've named mine operation My30Days
 
 ![newOperation](/images/newOperation.png)
+
+### Creating Payload
+
+1. On terminal `sudo -E ~/Mythic/mythic-cli install github https://github.com/MythicAgents/Apollo.git`
+
+_More information here_
+
+    `https://github.com/MythicAgents`
+
+![installApollo](/images/installApollo.png)
+
+Apollo is now visible on Payloads/C2 services
+
+![apolloInstalled](/images/apolloInstalled.png)
+
+2. `sudo ./mythic-cli install github https://github.com/MythicC2Profiles/http`
+
+_More information here_
+https://github.com/MythicC2Profiles
+
+![mythicHttpProfile](/images/mythicHttpProfile.png)
+
+Agent and C2 installed
+
+![agentNc2](/images/agentNc2.png)
+
+3. On mythic GUI click on `payloads>actions>Generate New Payload`
+
+- target: windows
+- Payload type: WinExe
+- Commands included: All ">>"
+- C2 profile included: http
+- callback host: http://{MYTHIC_SERVER_IP_ADDRESS}
+- Create payload
+- copy "Download payload" link
