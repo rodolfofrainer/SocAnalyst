@@ -31,3 +31,7 @@ All other options are set as the cheapest and weakest versions in order to save 
 
 3.  Accept the terms and conditions
 4.  Check windows Services for "Sysmon64"
+
+## Creating a "target"
+
+Under documents create "passwords.txt" with the content of a fake password i.e. "Spring2025"
