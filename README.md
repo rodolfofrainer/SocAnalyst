@@ -284,3 +284,44 @@ The Dashboard should be similar to this
 9. On osTicket Agent Panel > Tickets
 
 ![receivedApiTest](/images/receivedApiTest.png)
+
+## Analysing SSH brute Force
+
+1. Go into Elastic GUI > Security > Alerts
+   ![sshAlertInvestigation](/images/sshAlertInvestigation.png)
+
+   _This is the latest alert_
+
+2. According to [abuseipdb](https://www.abuseipdb.com/) this IP is known for this type of behaviour - something to keep in mind
+
+![abuseipdb](/images/abuseipdb.png)
+
+3. [Greynoise](https://viz.greynoise.io/ip/103.140.126.17) agrees with previous statement
+
+![Greynoise](/images/greynoise.jpg)
+
+4. Kibana has over 300 records of this ip attempting to establish connection with the server
+   ![kibana300Attempts](/images/kibana300Attempts.jpg)
+
+### Creating a ticket automatically
+
+Security > Rules > SIEM > SSH failed attempts > Edit rule settings > actions > webhook > Body
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <ticket alert="true" autorespond="true" source="API">
+        <name>Elastic</name>
+        <email>api@osticket.com</email>
+        <subject>{{rule.name}}</subject>
+        <phone>318-555-8634X123</phone>
+        <message type="text/plain"><![CDATA[Please investigate the rule: {{rule.name}}]]></message>
+    </ticket>
+
+![apiRuleConfig](/images/apiRuleConfig.jpg)
+
+_I did the same with the RPD and this is the result_
+
+![rdpOsTicketAlert](/images/rdpOsTicketAlert.png)
+
+_After assigning it to myself and investigating the latest alert(generated with kali linux's crowbar)_
+
+![ticketInvestigated](/images/ticketInvestigated.png)
