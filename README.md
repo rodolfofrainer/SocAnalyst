@@ -31,6 +31,22 @@ Once the infrastructure is setup the project aims to complete the attack diagram
 4. Execute payload from Mythic agent
 5. Stablish Command & Control
 6. Exfiltrate data
+7. Setup server to create a ticket automatically
+8. analyse ticket
+
+## Setup
+
+In order to follow this instructions please follow the [setup instructions](/setup/)
+
+the ideal order of infrastructure creation is:
+
+1. [Elasticsearch & Kibana Server](/setup/ELK/README.md)
+2. [Windows Server](/setup/Windows%20Server%20RDP/README.md)
+3. [Ubuntu Server](/setup/UbuntuSshServer/README.md)
+4. [Fleet Server](/setup/Fleet%20Server/README.md)
+5. [Kali Linux](/setup/kali%20Linux/)
+6. [Mythic Server](/setup/Mythic%20Server/README.md)
+7. [osTicket Server](/setup/osTicket/)
 
 ## Attack Diagram
 
