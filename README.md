@@ -1,4 +1,4 @@
-# SocAnalyst
+# SOC Analyses project
 
 This project aims to demonstrate step-by-step how to create a SIEM infratstructure capable of logging attempts to breach network security.
 
@@ -253,3 +253,34 @@ Change the the visualization type to `Table` and add the following fields
 The Dashboard should be similar to this
 
 ![dashboardSuspiciousActivity](/images/dashboardSuspiciousActivity.png)
+
+## Integrating osTicket with ELK server
+
+1. On osTicket "admin panel">Manage>API>add new API key
+
+![apiIpKey](/images/apiIpKey.png)
+
+2. Enter ELK server's IP Address
+3. Check `can create ticket` and click `Add key`
+4. On elastic GUI Management > Stack Management > Alerts and Insights > Connectors > Create connector > Manage License > Start trial
+5. Back to Create connector> webhook
+
+6. Edit connector:
+
+   - Name `osTicket`
+   - Method `POST`
+   - URL `http://10.3.0.4/osticket/upload/api/tickets.xml`
+   - Authentication `None`
+   - Add HTTP header
+     - Key `X-API-Key`
+     - Value `{API_KEY}`
+
+7. Save and test
+
+   1. Body = XML Payload Example `https://github.com/osTicket/osTicket/blob/develop/setup/doc/api/tickets.md#xml-payload-example`
+
+8. Run
+
+9. On osTicket Agent Panel > Tickets
+
+![receivedApiTest](/images/receivedApiTest.png)
